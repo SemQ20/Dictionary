@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "work_with_db.h"
+#include <QLineEdit>
 
 Dbwork dbw; // Class for work with SQLite database
 
@@ -31,7 +32,6 @@ void MainWindow::on_pushButton_clicked()
     QString engtr;
     QString rutr;
 
-    //query.exec("SELECT * FROM dict");
     engtr=ui->lineEdit->text();
     rutr=ui->lineEdit_2->text();
     dbw.insertToDB(ui,query,engtr,rutr);
