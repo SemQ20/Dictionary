@@ -12,18 +12,32 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     db= QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName("dictionary.db"); //connect db
-
     if(db.open()){
         query = QSqlQuery(db);
         ui->statusbar->showMessage("Driver load, db open");
     }else{
         ui->statusbar->showMessage("Driver not load, db not open");
     }
+    connect(ui->pushButton,SIGNAL(clicked()),this,SLOT(refreshNumberWords()));
+    connect(ui->pushButton_2,SIGNAL(clicked()),this,SLOT(refreshNumberWords()));
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::refreshNumberWords()
+{
+    query.exec("SELECT max(id) id FROM dict");
+    query.first();
+    resID = query.value(0).toString();
+    curMessage = "Word not found in dictionary";
+    if(!ifFound){
+        ui->statusbar->showMessage(curMessage +". Dictionary containing "+resID+" words");
+    }else{
+        ui->statusbar->showMessage("Dictionary containing "+resID+" words");
+    }
 }
 
 
@@ -39,7 +53,6 @@ void MainWindow::on_pushButton_clicked()
 
 void MainWindow::on_pushButton_2_clicked()
 {
-    bool ifFound;
     QString engtr = ui->lineEdit->text();
     QString rutr = ui->lineEdit_2->text();
     ui->listWidget->clear();
