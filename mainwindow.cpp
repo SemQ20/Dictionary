@@ -18,7 +18,6 @@ MainWindow::MainWindow(QWidget *parent)
     }else{
         ui->statusbar->showMessage("Driver not load, db not open");
     }
-    connect(ui->pushButton,SIGNAL(clicked()),this,SLOT(refreshNumberWords()));
     connect(ui->pushButton_2,SIGNAL(clicked()),this,SLOT(refreshNumberWords()));
 }
 
