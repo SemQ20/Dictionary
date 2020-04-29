@@ -28,10 +28,10 @@ void Dbwork::insertToDB(Ui::MainWindow *ui,QSqlQuery query, QString eng_str, QSt
     }
 }
 
-bool Dbwork::checkForCoincidence(QString eng_str, QString dbStr){
+bool Dbwork::checkForCoincidence(QString strFromLine, QString dbStr){
     int i = 0;
-    while(i != eng_str.size()){
-        if(eng_str[i] == dbStr[i]){
+    while(i != strFromLine.size()){
+        if(strFromLine[i] == dbStr[i]){
             i++;
         }else{
             return false;
@@ -60,16 +60,18 @@ bool Dbwork::serchInDBandShow(Ui::MainWindow *ui, QSqlQuery query, QString eng_s
 
     if(ru_str == NULL && eng_str != NULL){
     while(query.next()){
-        compareEngStrInDb = nullptr; // clear previous value
-        compareEngStrInDb = query.value(1).toString();
-        if(eng_str == query.value(1).toString() || checkForCoincidence(eng_str, compareEngStrInDb)){ // Find eng translation in db on russian word or compare substring
+        compareStrInDb = nullptr; // clear previous value
+        compareStrInDb = query.value(1).toString();
+        if(eng_str == query.value(1).toString() || checkForCoincidence(eng_str, compareStrInDb)){ // Find eng translation in db on russian word or compare substring
             ui->listWidget->addItem(query.value(2).toString());
             found = true;
         }
        }
     }else if(ru_str != NULL && eng_str == NULL){ // Find ru translation in db on english word
         while(query.next()){
-            if(ru_str == query.value(2).toString()){
+            compareStrInDb = nullptr; // clear previous value
+            compareStrInDb = query.value(2).toString();
+            if(ru_str == query.value(2).toString() || checkForCoincidence(ru_str, compareStrInDb)){
                 ui->listWidget->addItem(query.value(1).toString());
                 found = true;
             }

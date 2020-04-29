@@ -14,7 +14,7 @@ public:
     bool serchInDBandShow(Ui::MainWindow *ui, QSqlQuery query, QString eng_str, QString ru_str);
     bool checkStrForRuTranslation(QString str);
     bool checkStrForEngTranslation(QString str);
-    bool checkForCoincidence(QString eng_str, QString dbStr);
+    bool checkForCoincidence(QString strFromLine, QString dbStr);
     ~Dbwork();
 private:
     QString WRubegin = "А"; // begin diapason in russian dictionary (High register)
@@ -28,7 +28,7 @@ private:
     QString wEnend = "z"; // end diapason in english dictionary (Low register)
 
     QString strCmp;
-    QString compareEngStrInDb = nullptr; // variable like cmp for compare word in lineEdit with word in database
+    QString compareStrInDb = nullptr; // variable like cmp for compare word in lineEdit with word in database
 
     bool isRUtr; // return true if word is russian
     bool isENtr; // return true if word is english
